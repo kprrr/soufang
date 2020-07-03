@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.migu.security.AuthProvider;
+import com.migu.security.LoginAuthFailHandler;
+import com.migu.security.LoginUrlEntryPoint;
 
 
 @EnableWebSecurity
@@ -32,12 +34,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			.and()
 			.formLogin()
 			.loginProcessingUrl("/login")//配置角色登录处理入口
+			.failureHandler(loginAuthFailHandler())
 			.and()
 			.logout()//配置登出
 			.logoutUrl("/logout/page")
 			.deleteCookies("JSESSIONID")
 			.invalidateHttpSession(true)
-			.and();
+			.and()
+			.exceptionHandling()
+			.authenticationEntryPoint(loginUrlEntryPoint())
+			.accessDeniedPage("/403");//登录权限控制
 		
 		//开发关闭
 		http.csrf().disable();
@@ -65,5 +71,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public LoginUrlEntryPoint loginUrlEntryPoint() {
+		return new LoginUrlEntryPoint("/user/login");
+	}
+	
+	@Bean
+	public LoginAuthFailHandler loginAuthFailHandler() {
+		return new LoginAuthFailHandler(loginUrlEntryPoint());
 	}
 }
