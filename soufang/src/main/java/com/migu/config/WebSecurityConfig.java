@@ -24,6 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		//资源访问权限
+		//hasAnyRole继续往下看 会看到实际角色权限是 ROLE_ADMIN或者ROLE_USER
 		http.authorizeRequests()
 			.antMatchers("/admin/login").permitAll()//管理员登录入口
 			.antMatchers("static/**").permitAll()//静态资源
@@ -37,7 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			.failureHandler(loginAuthFailHandler())
 			.and()
 			.logout()//配置登出
-			.logoutUrl("/logout/page")
+			.logoutUrl("/logout")
+			.logoutSuccessUrl("/logout/page")
 			.deleteCookies("JSESSIONID")
 			.invalidateHttpSession(true)
 			.and()
@@ -60,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 //		.password("admin")
 //		.roles("ADMIN").and()
 //		.passwordEncoder(new CustomPasswordEncoder());
-		auth.authenticationProvider(authProvider());
+		auth.authenticationProvider(authProvider()).eraseCredentials(true);
 	}
 	
 	@Bean
