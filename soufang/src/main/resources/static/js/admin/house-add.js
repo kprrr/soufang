@@ -118,10 +118,10 @@ $(function () {
         submitHandler: function (form) {
             var cover = $(form).find("input:radio[name='cover']:checked").val();
 
-            if (cover == null || typeof(cover) == "undefined" || cover == "" || cover.length < 1) {
-                layer.msg('至少要上传一个封面！', {icon: 5, time: 2000});
-                return false;
-            }
+           // if (cover == null || typeof(cover) == "undefined" || cover == "" || cover.length < 1) {
+           //     layer.msg('至少要上传一个封面！', {icon: 5, time: 2000});
+            //    return false;
+            //}
 
             $(form).find('input.house-tag').remove();
             var index = 0;

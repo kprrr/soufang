@@ -3,6 +3,7 @@ package com.migu.service.user;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +15,8 @@ import com.migu.entity.User;
 import com.migu.repository.RoleRepository;
 import com.migu.repository.UserRepository;
 import com.migu.service.IUserService;
+import com.migu.service.ServiceResult;
+import com.migu.web.dto.UserDTO;
 
 @Service
 public class UserServiceImpl implements IUserService{
@@ -23,6 +26,9 @@ public class UserServiceImpl implements IUserService{
 	
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	@Override
 	public User findUserByName(String userName ) {
@@ -43,5 +49,15 @@ public class UserServiceImpl implements IUserService{
         user.setAuthorityList(authorities);
 		return user;
 	}
+
+	@Override
+    public ServiceResult<UserDTO> findById(Long userId) {
+        User user = userRepository.findById(userId).get();
+        if (user == null) {
+            return ServiceResult.notFound();
+        }
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+        return ServiceResult.of(userDTO);
+    }
 
 }
