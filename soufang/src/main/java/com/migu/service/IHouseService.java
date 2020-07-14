@@ -3,6 +3,7 @@ package com.migu.service;
 import com.migu.web.dto.HouseDTO;
 import com.migu.web.form.DatatableSearch;
 import com.migu.web.form.HouseForm;
+import com.migu.web.form.RentSearch;
 
 /**
  * 房屋管理服务接口
@@ -29,4 +30,6 @@ public interface IHouseService {
     ServiceMultiResult<HouseDTO> adminQuery(DatatableSearch searchBody);
 
 	ServiceResult updateStatus(Long id, int status);
+
+	ServiceMultiResult<HouseDTO> query(RentSearch rentSearch);
 }

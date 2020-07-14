@@ -2,6 +2,9 @@ package com.migu.service.search;
 
 import java.io.IOException;
 
+import com.migu.service.ServiceMultiResult;
+import com.migu.web.form.RentSearch;
+
 /**
  * 检索接口
  * Created by 瓦力.
@@ -21,12 +24,13 @@ public interface ISearchService {
      */
     void remove(Long houseId);
 
+
     /**
      * 查询房源接口
      * @param rentSearch
      * @return
      */
-//    ServiceMultiResult<Long> query(RentSearch rentSearch);
+    ServiceMultiResult<Long> query(RentSearch rentSearch);
 
     /**
      * 获取补全建议关键词

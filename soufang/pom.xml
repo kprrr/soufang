@@ -156,6 +156,18 @@
 			<groupId>org.elasticsearch.client</groupId>
 			<artifactId>elasticsearch-rest-high-level-client</artifactId>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.google.collections/google-collections -->
+		<dependency>
+			<groupId>com.google.collections</groupId>
+			<artifactId>google-collections</artifactId>
+			<version>1.0-rc2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
