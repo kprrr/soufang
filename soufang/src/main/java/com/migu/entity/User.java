@@ -45,7 +45,7 @@ public class User implements UserDetails {
     private Date lastLoginTime;
     
     @Column(name="last_update_time")
-    private Date lastUpateTime;
+    private Date lastUpdateTime;
     
     private String avatar;
 

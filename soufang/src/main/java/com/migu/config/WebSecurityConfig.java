@@ -2,13 +2,16 @@ package com.migu.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.migu.security.AuthFilter;
 import com.migu.security.AuthProvider;
 import com.migu.security.LoginAuthFailHandler;
 import com.migu.security.LoginUrlEntryPoint;
@@ -23,6 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class);
+		
 		//资源访问权限
 		//hasAnyRole继续往下看 会看到实际角色权限是 ROLE_ADMIN或者ROLE_USER
 		http.authorizeRequests()
@@ -84,4 +89,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	public LoginAuthFailHandler loginAuthFailHandler() {
 		return new LoginAuthFailHandler(loginUrlEntryPoint());
 	}
+	
+	@Bean
+    public LoginUrlEntryPoint urlEntryPoint() {
+        return new LoginUrlEntryPoint("/user/login");
+    }
+	@Bean
+    public LoginAuthFailHandler authFailHandler() {
+        return new LoginAuthFailHandler(urlEntryPoint());
+    }
+	
+	@Bean
+    public AuthenticationManager authenticationManager() {
+        AuthenticationManager authenticationManager = null;
+        try {
+            authenticationManager =  super.authenticationManager();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return authenticationManager;
+    }
+	
+	@Bean
+    public AuthFilter authFilter() {
+        AuthFilter authFilter = new AuthFilter();
+        authFilter.setAuthenticationManager(authenticationManager());
+        authFilter.setAuthenticationFailureHandler(authFailHandler());
+        return authFilter;
+    }
 }

@@ -1,8 +1,11 @@
 package com.migu.service.search;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.migu.service.ServiceMultiResult;
+import com.migu.service.ServiceResult;
+import com.migu.web.form.MapSearch;
 import com.migu.web.form.RentSearch;
 
 /**
@@ -35,30 +38,30 @@ public interface ISearchService {
     /**
      * 获取补全建议关键词
      */
-//    ServiceResult<List<String>> suggest(String prefix);
+    ServiceResult<List<String>> suggest(String prefix);
 
     /**
      * 聚合特定小区的房间数
      */
-//    ServiceResult<Long> aggregateDistrictHouse(String cityEnName, String regionEnName, String district);
+    ServiceResult<Long> aggregateDistrictHouse(String cityEnName, String regionEnName, String district);
 
     /**
      * 聚合城市数据
      * @param cityEnName
      * @return
      */
-//    ServiceMultiResult<HouseBucketDTO> mapAggregate(String cityEnName);
+    ServiceMultiResult<HouseBucketDTO> mapAggregate(String cityEnName);
 
     /**
      * 城市级别查询
      * @return
      */
-//    ServiceMultiResult<Long> mapQuery(String cityEnName, String orderBy,
-//                                      String orderDirection, int start, int size);
+    ServiceMultiResult<Long> mapQuery(String cityEnName, String orderBy,
+                                      String orderDirection, int start, int size);
     /**
      * 精确范围数据查询
      * @param mapSearch
      * @return
      */
-//    ServiceMultiResult<Long> mapQuery(MapSearch mapSearch);
+    ServiceMultiResult<Long> mapQuery(MapSearch mapSearch);
 }
